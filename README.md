@@ -77,7 +77,7 @@ choices = [
 zebra_output = zebra.pipeline(questions=questions, choices=choices)
 ```
 
-Output:
+The output contains, for each question, a list of generated explanations and the predicted answer:
 
 ```bash
   ZebraOutput(
@@ -112,19 +112,34 @@ Output:
   )
 ```
 
-## Models
+You can also call the `zebra.pipeline` method with the `return_dict` parameter set to `True` to ask ZEBRA to return also the retrieved examples along with their explanations.
 
+## Retriever Model
+
+We trained our retriever on the CSQA dataset [(Talmor et. al 2019)](https://aclanthology.org/N19-1421/).
 The retriever model can be found on 🤗 Hugging Face.
 
 - 🦓 **Zebra Retriever**: [`sapienzanlp/zebra-retriever-e5-base-v2`](https://huggingface.co/sapienzanlp/zebra-retriever-e5-base-v2)
 
 ## Data
 
-ZEBRA comes with a knowledge base called ZEBRA-KB containing examples of questions along with their automatically-generated list of explanations. \
-This KB is where the retriever fetches relevant examples for the input question during the knowledge generation step. \
-The KB is organized in two components: the explanations and the document indexes.
+ZEBRA comes with a knowledge base called ZEBRA-KB containing examples of questions along with their automatically-generated list of explanations. To create the explanations, we prompt Google Gemini-1.5-Flash to generate useful knowledge given a question together with its choices and correct answer. The examples are taken from the training sets of the following question answering benchmarks:
 
-The explanations are organized in splits, one for each dataset. Each sample contains an ID (compliant with the original sample ID in the relative dataset) and a list of explanations. There is also a dedicated split which contains all the samples of every split.
+| Dataset | Description | Link |
+|---------|-------------|------|
+| CSQA    | CommonsenseQA is a dataset for commonsense question answering. | [CSQA](https://www.tau-nlp.org/commonsenseqa) |
+| ARC     | AI2 Reasoning Challenge is a dataset for science question answering. | [ARC](https://allenai.org/data/arc) |
+| OBQA    | OpenBookQA is a dataset for open book question answering. | [OBQA](https://allenai.org/data/open-book-qa) |
+| PIQA    | Physical Interaction QA is a dataset for physical commonsense reasoning. | [PIQA](https://yonatanbisk.com/piqa/) |
+| QASC    | Question Answering via Sentence Composition is a dataset for multi-hop question answering. | [QASC](https://allenai.org/data/qasc) |
+| CSQA2   | CommonsenseQA 2.0 is a dataset for commonsense question answering. | [CSQA2](https://github.com/allenai/csqa2) |
+| WG      | Winograd Schema Challenge is a dataset for commonsense reasoning. | [WG](https://github.com/allenai/winogrande) |
+
+
+This KB is where the retriever fetches relevant examples for the input question during the knowledge generation step. The KB is organized in two components: the explanations and the document indexes.
+
+The explanations are organized in splits, one for each training set (e.g. `csqa-train-gemini`). Each sample contains an ID (compliant with the original sample ID in the relative training set) and a list of explanations. There is also a dedicated split which contains all the samples of every split. You can access the explanations at the following link:
+
 - **ZEBRA-KB Explanations** [`sapienzanlp/zebra-kb-explanations`](https://huggingface.co/datasets/sapienzanlp/zebra-kb-explanations)
 
 Alternatively, you can also download the explanations on your local machine from the following [Google Drive link](https://drive.google.com/file/d/1j4SDcaZRdazdpqw4Ei281kGkRYe36sgd/view?usp=drive_link). \
@@ -132,9 +147,9 @@ For convenience, we provide a dedicated folder to store the downloaded explanati
 
 The document indexes contain the examples along with their embeddings. These indexes are needed to fetch relevant examples for a given input question through the retriever. Once the examples are retrieved, their IDs will be matched against the ones contained in the relative explanations split to create the desired input for the knowledge generation step, that is, a list of k examples with their associated explanations.
 
-As for the explanations, the document indexes are organized in splits, one for each dataset. You can browse the available splits at the following [HuggingFace Collection link](https://huggingface.co/collections/sapienzanlp/zebra-66e3ec50c8ce415ea7572d0e).
+As for the explanations, the document indexes are organized in splits, one for each training set. You can browse the available splits at the following [HuggingFace Collection link](https://huggingface.co/collections/sapienzanlp/zebra-66e3ec50c8ce415ea7572d0e).
 
-We also provide a document index containing the splits of every dataset:
+We also provide a document index containing the splits of every training set:
 
 - **ZEBRA-KB Document Index** [`sapienzanlp/zebra-kb`](https://huggingface.co/sapienzanlp/zebra-kb)
 
