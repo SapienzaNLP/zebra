@@ -16,7 +16,7 @@
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000)](https://github.com/psf/black)
 </div>
 
-A retrieval augmnetation framework for zero-shot commonsense question answering with LLMs. 
+A retrieval augmentation framework for zero-shot commonsense question answering with LLMs. 
 
 ## 🛠️ Installation
 
@@ -41,12 +41,12 @@ pip install -e .
 ZEBRA is a plug-and-play retrieval augmentation framework for **Commonsense Question Answering**. \
 It is composed of two pipeline stages: *knowledge generation* and *informed reasoning*. \
 The knowledge generation step is responsible for:
-- retrieving relevant examples of question-knowledge pairs from a large collection
-- prompting a LLM to generate useful explanations for the given input question by leveraging the relation between the retrieved question-knowledge pairs.
+- given a question, retrieving relevant examples of question-knowledge pairs from a large collection
+- prompting a LLM to generate useful explanations for the given input question by leveraging the relationships between the retrieved question-knowledge pairs.
 
 The informed reasoning step is responsible for prompting a LLM for the question answering task by taking advantage of the previously generated explanations.
 
-Here is an example on how you can use ZEBRA for question answering:
+Here is an example of how to use ZEBRA for question answering:
 
 ```python
 from zebra import Zebra
@@ -78,6 +78,7 @@ zebra_output = zebra.pipeline(questions=questions, choices=choices)
 ```
 
 Output:
+
 ```bash
   ZebraOutput(
     explanations=[
@@ -123,13 +124,13 @@ ZEBRA comes with a knowledge base called ZEBRA-KB containing examples of questio
 This KB is where the retriever fetches relevant examples for the input question during the knowledge generation step. \
 The KB is organized in two components: the explanations and the document indexes.
 
-The explanations are organized in splits, one for each dataset. Each sample contains an ID (compliant with the orginial sample ID in the relative dataset) and a list of explanations. There is also a dedicated split which contains the samples of every split.
+The explanations are organized in splits, one for each dataset. Each sample contains an ID (compliant with the original sample ID in the relative dataset) and a list of explanations. There is also a dedicated split which contains all the samples of every split.
 - **ZEBRA-KB Explanations** [`sapienzanlp/zebra-kb-explanations`](https://huggingface.co/datasets/sapienzanlp/zebra-kb-explanations)
 
 Alternatively, you can also download the explanations on your local machine from the following [Google Drive link](https://drive.google.com/file/d/1j4SDcaZRdazdpqw4Ei281kGkRYe36sgd/view?usp=drive_link). \
 For convenience, we provide a dedicated folder to store the downloaded explanations: `data/explanations`.
 
-The document indexes contain the examples along with their embeddings. These indexes are needed to fetch relevant examples for a given input question through the retriever. Once the examples are retrieved, their IDs will be matched against the ones contained in the relative explanations split to create the desidered input for the knowledge generation step, that is, a list of k examples with their associated explanations.
+The document indexes contain the examples along with their embeddings. These indexes are needed to fetch relevant examples for a given input question through the retriever. Once the examples are retrieved, their IDs will be matched against the ones contained in the relative explanations split to create the desired input for the knowledge generation step, that is, a list of k examples with their associated explanations.
 
 As for the explanations, the document indexes are organized in splits, one for each dataset. You can browse the available splits at the following [HuggingFace Collection link](https://huggingface.co/collections/sapienzanlp/zebra-66e3ec50c8ce415ea7572d0e).
 
@@ -141,12 +142,12 @@ We also provide a document index containing the splits of every dataset:
 
 If you wish to reproduce our results, we provide the output of our [`retriever`](https://huggingface.co/sapienzanlp/zebra-retriever-e5-base-v2) for all the datasets at the following [Google Drive link](https://drive.google.com/file/d/1HFk_1pnIBN-3bDGm5Bx7d34mPpDjVHRz/view?usp=drive_link).
 
-After you have downloaded the zip file, please unzip it and move its content in the `data/retriever/outputs` folder. Then, you should be able to see something like `data/retriever/outputs/{dataset}` with some .jsonl files inside. \
+After you have downloaded the zip file, please unzip it and move its contents to the `data/retriever/outputs` folder. Then, you should be able to see something like `data/retriever/outputs/{dataset}` with some .jsonl files inside. \
 Each .jsonl file contains the top k=100 examples fetched by the retriever for each input question of the dataset. The naming convention of the .jsonl file is: `{dataset}_{split}.{dataset}_train.jsonl`, where `{dataset}_{split}` specifies the dataset from which the input questions are drawn from (e.g. csqa_dev), while `{dataset}_train` specifies the document index in ZEBRA-KB from which the examples are drawn from (e.g. csqa_train).
 
 We provide a script to run the entire ZEBRA pipeline offline over a dataset using a specific LLM. \
 You can find the available datasets for evaluation under the `data/datasets` folder. \
-Once you have placed the retriever's ouputs in the dedicated folder, the script expects only one input parameter: the model to be evaluated using the relative HuggingFace model ID (e.g. `meta-llama/Meta-Llama-3-8B-Instruct`).
+Once you have placed the retriever's outputs in the dedicated folder, the script expects only one input parameter: the model to be evaluated using the relative HuggingFace model ID (e.g. `meta-llama/Meta-Llama-3-8B-Instruct`).
 
 Example on CSQA:
 
@@ -394,7 +395,7 @@ Once you have obtained the retriever's output for a given dataset, you can run t
 
 ## 📊 Performance
 
-We evaluate the performance of ZEBRA on 8 well-established commonsense question answering datasets. The following table shows the results (accuracy) of the models before and after the application of ZEBRA.
+We evaluate the performance of ZEBRA on 8 well-established commonsense question answering datasets. The following table shows the results (accuracy) of the models before / after the application of ZEBRA.
 
 |          Model           |       CSQA      |      ARC-C      |      ARC-E      |       OBQA      |       PIQA      |       QASC      |      CSQA2      |        WG       |       AVG       |  
 | ------------------------ | --------------- | --------------- | --------------- | --------------- | --------------- | --------------- | --------------- | --------------- | --------------- | 
@@ -434,3 +435,7 @@ If you use any part of this work, please consider citing the paper as follows:
 ## 🪪 License
 
 The data and software are licensed under [Creative Commons Attribution-NonCommercial-ShareAlike 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/).
+
+## Acknowledgements
+* [Future AI Research](https://future-ai-research.it/) for supporting this work.
+* [Creative] 
