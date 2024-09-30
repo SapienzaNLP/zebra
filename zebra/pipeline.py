@@ -46,7 +46,7 @@ class ZebraOutput:
     
     questions: List[str]
     choices: Union[List[List[str]],  List[List[Dict[str, str]]]]
-    explanations: List[str]
+    explanations: List[List[str]]
     answers: List[str]
     retriever_output: List[Dict[str, Any]]
     kg_shots: List[List[Dict[str, Any]]]
