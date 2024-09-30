@@ -411,7 +411,25 @@ You can also download the official paper results at the following [Google Drive 
 
 If you use any part of this work, please consider citing the paper as follows:
 
-[TODO]
+```bibtex
+@inproceedings{molfese-etal-2024-zebra,
+    title = "ZEBRA: Zero-Shot Example-Based Retrieval Augmentation for Commonsense Question Answering",
+    author = "Molfese, Francesco Maria  and
+      Conia, Simone  and
+      Orlando, Riccardo  and
+      Navigli, Roberto",
+    editor = "",
+    booktitle = "Proceedings of the 2024 Conference on Empirical Methods in Natural Language Processing",
+    month = nov,
+    year = "2024",
+    address = "Miami",
+    publisher = "Association for Computational Linguistics",
+    url = "",
+    doi = "",
+    pages = "",
+    abstract = "",
+}
+```
 
 ## 🪪 License
 
