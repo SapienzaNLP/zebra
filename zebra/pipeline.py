@@ -4,6 +4,7 @@ import random
 import numpy as np
 from tqdm import tqdm
 from loguru import logger
+from dataclasses import dataclass
 from goldenretriever.indexers.inmemory import BaseDocumentIndex
 from transformers import PreTrainedModel, PreTrainedTokenizer
 from goldenretriever.pytorch_modules.model import GoldenRetriever
@@ -21,7 +22,58 @@ torch.manual_seed(0)
 RETRIEVER_PATH = "sapienzanlp/zebra-retriever-e5-base-v2"
 DOCUMENT_INDEX_PATH = "sapienzanlp/zebra-kb"
 EXPLANATIONS_PATH = "sapienzanlp/zebra-kb-explanations"
-EXPLANATIONS_SPLIT = "csqa-train-gemini"
+EXPLANATIONS_SPLIT = "all"
+
+@dataclass
+class ZebraOutput:
+    """
+    Attributes:
+        questions (List[str]):
+            The list of questions to be answered.
+        choices (Union[List[List[str]], List[List[Dict[str, str]]]]):
+            The list of choices for each question. Each question can have a list of strings or a list of dictionaries with 'label' and 'text' keys.
+        explanations (List[str]):
+            The list of explanations generated for each question.
+        answers (List[str]):
+            The list of answers generated for each question.
+        retriever_output (List[Dict[str, Any]]):
+            The output from the retriever for each question.
+        kg_shots (List[List[Dict[str, Any]]]):
+            The knowledge generation examples for each question.
+        samples (List[Dict[str, Any]]):
+            The input samples created from the questions and choices.
+    """
+    
+    questions: List[str]
+    choices: Union[List[List[str]],  List[List[Dict[str, str]]]]
+    explanations: List[str]
+    answers: List[str]
+    retriever_output: List[Dict[str, Any]]
+    kg_shots: List[List[Dict[str, Any]]]
+    samples: List[Dict[str, Any]]
+
+    # convert to dict
+    # def to_dict(self):
+    #     self_dict = {
+    #         "text": self.text,
+    #         "tokens": [tok.text for tok in self.tokens],
+    #         "spans": self.spans,
+    #         "triplets": self.triplets,
+    #         "candidates": {
+    #             "span": [
+    #                 [[doc.to_dict() for doc in documents] for documents in window]
+    #                 for window in self.candidates.span
+    #             ],
+    #             "triplet": [
+    #                 [[doc.to_dict() for doc in documents] for documents in window]
+    #                 for window in self.candidates.triplet
+    #             ],
+    #         },
+    #     }
+    #     if self.windows is not None:
+    #         self_dict["windows"] = [window.to_dict() for window in self.windows]
+    #     return self_dict
+
 
 class Zebra:
     def __init__(
@@ -197,6 +249,8 @@ class Zebra:
         # Prepare the questions and choices for the prompt.
         samples = self.create_input_sample(questions, choices)
 
+        all_questions = []
+        all_choices = []
         all_knowledge = []
         all_answers_with_knowledge = []
 
@@ -256,6 +310,8 @@ class Zebra:
                 choices_text[index]
             )
 
+            all_questions.append(sample["question"]["stem"])
+            all_choices.append(sample["question"]["choices"])
             all_knowledge.append(generated_knowledge)
             all_answers_with_knowledge.append(answer_with_knowledge)
         
@@ -264,7 +320,9 @@ class Zebra:
         if not return_dict:
             return all_knowledge, all_answers_with_knowledge
         return {
-            "knowledge": all_knowledge,
+            "questions": all_questions,
+            "choices": all_choices,
+            "explanations": all_knowledge,
             "answers": all_answers_with_knowledge,
             "retriever_output": retriever_output,
             "kg_shots": kg_shots,

@@ -1,6 +1,6 @@
 
 <div align="center">
-  <img src="assets/zebra.jpeg" height="80">
+  <img src="assets/zebra.png" height="80">
 </div>
 
 <div align="center">
@@ -46,13 +46,17 @@ The knowledge generation step is responsible for:
 
 The informed reasoning step is responsible for prompting a LLM for the question answering task by taking advantage of the previously generated explanations.
 
-Here is an example on how you can use ZEBRA for Question Answering:
+Here is an example on how you can use ZEBRA for question answering:
 
 ```python
 from zebra import Zebra
 
 # Load Zebra with language model, retriever, document index and explanations.
-zebra = Zebra(model="meta-llama/Meta-Llama-3-8B-Instruct")
+zebra = Zebra(
+  model="meta-llama/Meta-Llama-3-8B-Instruct",
+  retriever="sapienzanlp/zebra-retriever-e5-base-v2",
+  document_index="sapienzanlp/zebra-kb"
+)
 
 # Provide a question and answer choices.
 questions = [
@@ -107,33 +111,42 @@ Output:
   )
 ```
 
-### Models
+## Models
 
 The retriever model can be found on 🤗 Hugging Face.
 
 - 🦓 **Zebra Retriever**: [`sapienzanlp/zebra-retriever-e5-base-v2`](https://huggingface.co/sapienzanlp/zebra-retriever-e5-base-v2)
 
-### Data
+## Data
 
 ZEBRA comes with a knowledge base called ZEBRA-KB containing examples of questions along with their automatically-generated list of explanations. \
 This KB is where the retriever fetches relevant examples for the input question during the knowledge generation step. \
 The KB is organized in two components: the explanations and the document indexes.
 
-The explanations are organized in splits, one for each dataset. Each sample contains an id (compliant with the orginial sample id in the relative dataset) and a list of explanations. There is also a dedicated split which contains the samples of every split.
+The explanations are organized in splits, one for each dataset. Each sample contains an ID (compliant with the orginial sample ID in the relative dataset) and a list of explanations. There is also a dedicated split which contains the samples of every split.
 - **ZEBRA-KB Explanations** [`sapienzanlp/zebra-kb-explanations`](https://huggingface.co/datasets/sapienzanlp/zebra-kb-explanations)
 
-Alternatively, you can also download the expalantions on your local machine from the following [Google Drive link](https://drive.google.com/file/d/1j4SDcaZRdazdpqw4Ei281kGkRYe36sgd/view?usp=drive_link). \
+Alternatively, you can also download the explanations on your local machine from the following [Google Drive link](https://drive.google.com/file/d/1j4SDcaZRdazdpqw4Ei281kGkRYe36sgd/view?usp=drive_link). \
 For convenience, we provide a dedicated folder to store the downloaded explanations: `data/explanations`.
 
-The document indexes contain the examples along with their embeddings. These indexes are needed to fetch relevant examples for a given input through the retriever. Once the examples are retrieved, their ids will be matched against the ones contained in the relative explanations split to create the desidered input for the knowledge generation step, that is, a list of k examples with their associated explanations.
+The document indexes contain the examples along with their embeddings. These indexes are needed to fetch relevant examples for a given input question through the retriever. Once the examples are retrieved, their IDs will be matched against the ones contained in the relative explanations split to create the desidered input for the knowledge generation step, that is, a list of k examples with their associated explanations.
 
-- **ZEBRA-KB Document Indexes** [`sapienzanlp/zebra-kb`](https://huggingface.co/sapienzanlp/zebra-kb)
+As for the explanations, the document indexes are organized in splits, one for each dataset. You can browse the available splits at the following [HuggingFace Collection link](https://huggingface.co/collections/sapienzanlp/zebra-66e3ec50c8ce415ea7572d0e).
 
-### Reproducibility
+We also provide a document index containing the splits of every dataset:
+
+- **ZEBRA-KB Document Index** [`sapienzanlp/zebra-kb`](https://huggingface.co/sapienzanlp/zebra-kb)
+
+## Reproducibility
+
+If you wish to reproduce our results, we provide the output of our [`retriever`](https://huggingface.co/sapienzanlp/zebra-retriever-e5-base-v2) for all the datasets at the following [Google Drive link](https://drive.google.com/file/d/1HFk_1pnIBN-3bDGm5Bx7d34mPpDjVHRz/view?usp=drive_link).
+
+After you have downloaded the zip file, please unzip it and move its content in the `data/retriever/outputs` folder. Then, you should be able to see something like `data/retriever/outputs/{dataset}` with some .jsonl files inside. \
+Each .jsonl file contains the top k=100 examples fetched by the retriever for each input question of the dataset. The naming convention of the .jsonl file is: `{dataset}_{split}.{dataset}_train.jsonl`, where `{dataset}_{split}` specifies the dataset from which the input questions are drawn from (e.g. csqa_dev), while `{dataset}_train` specifies the document index in ZEBRA-KB from which the examples are drawn from (e.g. csqa_train).
 
 We provide a script to run the entire ZEBRA pipeline offline over a dataset using a specific LLM. \
 You can find the available datasets for evaluation under the `data/datasets` folder. \
-The script expects only one input parameter: the model to be evaluated using the relative HuggingFace model ID (e.g. `meta-llama/Meta-Llama-3-8B-Instruct`).
+Once you have placed the retriever's ouputs in the dedicated folder, the script expects only one input parameter: the model to be evaluated using the relative HuggingFace model ID (e.g. `meta-llama/Meta-Llama-3-8B-Instruct`).
 
 Example on CSQA:
 
@@ -147,15 +160,11 @@ We also provide a script to run ZEBRA over all the datasets.
 bash scripts/evaluation/zebra.sh meta-llama/Meta-Llama-3-8B-Instruct
 ```
 
-These scripts will call **zebra/run_zebra.py** with a predefined set of parameters.
-If you wish to run additional experiments by modifying these parameters, you can either modify them directly inside the bash scripts or use the ZEBRA CLI.
-
-### 🦓 ZEBRA CLI
-
-ZEBRA provides a CLI to perform inference on a dataset file. The CLI can be used as follows:
+These scripts will call **scripts/evaluation/run_zebra.py** with a predefined set of parameters.
+If you wish to run additional experiments by modifying these parameters, you can either modify them directly inside the bash scripts or call the python script with command line arguments.
 
 ```bash
-python zebra/run_zebra.py --help
+python scripts/evaluation/run_zebra.py --help
 
   Usage: run_zebra.py [ARGUMENTS] [OPTIONS] 
 
@@ -189,7 +198,7 @@ For example:
 python zebra/run_zebra.py \
   --model_name meta-llama/Meta-Llama-3-8B-Instruct \
   --data_path data/datasets/csqa/csqa-dev.jsonl \
-  --retriever_output_path data/zebra_retriever/outputs/csqa/csqa_dev.csqa_train.jsonl \
+  --retriever_output_path data/retriever/outputs/csqa/csqa_dev.csqa_train.jsonl \
   --fewshot_data_path data/datasets/csqa/csqa-train.jsonl \
   --explanations_path sapienzanlp/zebra-kb-explanations \
   --explanations_split csqa-train-gemini
@@ -202,15 +211,15 @@ python zebra/run_zebra.py \
   --num_kg_examples 5
 ```
 
-## 📚 Before You Start
+## 🦓 Zebra Pipeline
 
-In the following sections, we provide a step-by-step guide on how to prepare the data to test ZEBRA on your dataset, train the ZEBRA retriever and evaluate the models.
+In the following sections, we provide a step-by-step guide on how to prepare the data to test ZEBRA on your dataset, train your own ZEBRA retriever and evaluate the models.
 
 ### Data Evaluation Format
 
 To be able to run ZEBRA on your dataset, the data should have the following structure:
 
-```jsonl
+```python
 {
   "id": str,  # Unique identifier for the question
   "question": dict  # Dictionary of the question
@@ -230,10 +239,11 @@ To be able to run ZEBRA on your dataset, the data should have the following stru
 ```
 
 All the datasets in the `data/datasets` folder already match this format. \
-For convenience, we provide a script to parse a dataset in the desired format: `zebra/data/parse_dataset.py`.
+For convenience, we provide a script to parse a dataset in the desired format: `scripts/data/parse_dataset.py`.
 
 ### Retriever Training
 
+Our retriever model can be found at the link in the [Models](#models) section.
 We trained our retriever on the CSQA dataset [(Talmor et. al 2019)](https://aclanthology.org/N19-1421/). In particular, we format both the training and validation datasets as follows: 
 
 ```jsonl
@@ -255,20 +265,18 @@ Where each *question* and *positive* passage is formatted as:
 Q [SEP] C1 [SEP] C2 ... [SEP] Cn 
 ```
 
-To train the retriever with this dataset, you can run
+If you wish to train your own retriever with this dataset, you can run:
 
 ```bash
-bash scripts/zebra_retriever/train.sh
+bash scripts/retriever/train.sh
 ```
 
-The script will call **zebra/retriever/train.py** with a predefined set of parameters.
-The data needed to train the retriever can be found in the `data/zebra_retriever/datasets` folder.
-If you wish to run additional experiments by modifying these parameters, you can either modify them directly inside the bash scripts or use the ZEBRA Retriever CLI.
-
-You can run the following command for more details about training parameters.
+The script will call **scripts/retriever/train.py** with a predefined set of parameters.
+The data needed to train the retriever can be found in the `data/retriever/datasets` folder.
+If you wish to run additional experiments by modifying these parameters, you can either modify them directly inside the bash scripts or call the python script with command line arguments.
 
 ```bash
-python zebra/retriever/train.py --help
+python scripts/retriever/train.py --help
 
   Usage: train.py [ARGUMENTS] [OPTIONS] 
 
@@ -300,9 +308,9 @@ python zebra/retriever/train.py --help
 For example:
 
 ```bash
-python zebra/retriever/train.py \
-  --train_data_path data/zebra_retriever/datasets/train.jsonl \
-  --dev_data_path data/zebra_retriever/datasets/dev.jsonl
+python scripts/retriever/train.py \
+  --train_data_path data/retriever/datasets/train.jsonl \
+  --dev_data_path data/retriever/datasets/dev.jsonl
 ```
 
 
@@ -317,7 +325,7 @@ The document index can contain:
 You can either access the precomputed document indexes using the link provided in the [Data](#data) section, or you can generate your own document index by running:
 
 ```bash
-python zebra/retriever/create_index.py --help
+python scripts/retriever/create_index.py --help
 
   Usage: create_index.py [ARGUMENTS] [OPTIONS] 
 
@@ -342,17 +350,17 @@ For example:
 python zebra/retriever/create_index.py \
   --retriever_path sapienzanlp/zebra-retriever-e5-base-v2 \
   --data_path data/datasets/csqa/csqa-train.jsonl \
-  --output_dir data/zebra_retriever/zebra_kb/csqa_train \
+  --output_dir data/retriever/zebra_kb/csqa_train \
 ```
 
-For convenience, we provide a folder to store the document indexes: `data/zebra_retriever/zebra_kb`.
+For convenience, we provide a folder to store the document indexes: `data/retriever/zebra_kb`.
 
 ### Retriever Inference
 
 Once you have a retriever and a document index of the ZEBRA KB, you can retrieve the most relevant examples from the KB for a given input question by running:
 
 ```bash
-python zebra/retriever/retriever_inference.py --help
+python scripts/retriever/retriever_inference.py --help
 
   Usage: retriever_inference.py [ARGUMENTS] [OPTIONS] 
 
@@ -377,14 +385,12 @@ python zebra/retriever/retriever_inference.py \
   --retriever_path sapienzanlp/zebra-retriever-e5-base-v2 \
   --data_path data/datasets/csqa/csqa-dev.jsonl \
   --document_index_path sapienzanlp/zebra-kb-csqa-train\
-  --output_path data/zebra_retriever/outputs/csqa/csqa_dev.csqa_train.jsonl \
+  --output_path data/retriever/outputs/csqa/csqa_dev.csqa_train.jsonl \
 ```
 
-For convenience, we provide a folder to store the retriever outputs: `data/zebra_retriever/outputs`.
+For convenience, we provide a folder to store the retriever outputs: `data/retriever/outputs`.
 
-Once you have obtained the retriever's output for a given dataset, you can run the code explained under the [ZEBRA CLI](#-zebra-cli) section to obtain the output and the scores of the ZEBRA pipeline on that dataset.
-
-If you wish to reproduce our results, we also provide the output of our [`retriever`](https://huggingface.co/sapienzanlp/zebra-retriever-e5-base-v2) for all the datasets at the following [Google Drive link](https://drive.google.com/file/d/1HFk_1pnIBN-3bDGm5Bx7d34mPpDjVHRz/view?usp=drive_link).
+Once you have obtained the retriever's output for a given dataset, you can run the code explained under the [Reproducibility](#Reproducibility) section to obtain the output and the scores of the ZEBRA pipeline on that dataset.
 
 ## 📊 Performance
 
