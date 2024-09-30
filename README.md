@@ -142,12 +142,12 @@ The explanations are organized in splits, one for each training set (e.g. `csqa-
 
 - **ZEBRA-KB Explanations** [`sapienzanlp/zebra-kb-explanations`](https://huggingface.co/datasets/sapienzanlp/zebra-kb-explanations)
 
-Alternatively, you can also download the explanations on your local machine from the following [Google Drive link](https://drive.google.com/file/d/1j4SDcaZRdazdpqw4Ei281kGkRYe36sgd/view?usp=drive_link). \
-For convenience, we provide a dedicated folder to store the downloaded explanations: `data/explanations`.
+Alternatively, you can also download the explanations on your local machine from the following [Google Drive link](https://drive.google.com/file/d/1eKBB1DaQQx-s5ibiZrrgfZpfDwDMxxWB/view?usp=sharing). For convenience, we provide a dedicated folder to store the downloaded explanations: `data/explanations`.
 
-The document indexes contain the examples along with their embeddings. These indexes are needed to fetch relevant examples for a given input question through the retriever. Once the examples are retrieved, their IDs will be matched against the ones contained in the relative explanations split to create the desired input for the knowledge generation step, that is, a list of k examples with their associated explanations.
+The document indexes contain the examples along with their embeddings. These indexes are needed to fetch relevant examples for a given input question through the retriever. Once the examples are retrieved, their IDs will be matched against the ones contained in the relative explanations split to create the desired input for the knowledge generation step, that is, a list of $k$ examples with their associated explanations.
 
-As for the explanations, the document indexes are organized in splits, one for each training set. You can browse the available splits at the following [HuggingFace Collection link](https://huggingface.co/collections/sapienzanlp/zebra-66e3ec50c8ce415ea7572d0e).
+
+Similar to the explanations, the document indexes are organized in splits, one for each training set. You can browse the available splits at the following [HuggingFace Collection link](https://huggingface.co/collections/sapienzanlp/zebra-66e3ec50c8ce415ea7572d0e).
 
 We also provide a document index containing the splits of every training set:
 
@@ -157,12 +157,9 @@ We also provide a document index containing the splits of every training set:
 
 If you wish to reproduce our results, we provide the output of our [`retriever`](https://huggingface.co/sapienzanlp/zebra-retriever-e5-base-v2) for all the datasets at the following [Google Drive link](https://drive.google.com/file/d/1HFk_1pnIBN-3bDGm5Bx7d34mPpDjVHRz/view?usp=drive_link).
 
-After you have downloaded the zip file, please unzip it and move its contents to the `data/retriever/outputs` folder. Then, you should be able to see something like `data/retriever/outputs/{dataset}` with some .jsonl files inside. \
-Each .jsonl file contains the top k=100 examples fetched by the retriever for each input question of the dataset. The naming convention of the .jsonl file is: `{dataset}_{split}.{dataset}_train.jsonl`, where `{dataset}_{split}` specifies the dataset from which the input questions are drawn from (e.g. csqa_dev), while `{dataset}_train` specifies the document index in ZEBRA-KB from which the examples are drawn from (e.g. csqa_train).
+After you have downloaded the zip file, please unzip it and move its contents to the `data/retriever/outputs` folder. Then, you should be able to see something like `data/retriever/outputs/{dataset}` with some .jsonl files inside. Each .jsonl file contains the top $k=100$ examples fetched by the retriever for each input question of the dataset. The naming convention of the .jsonl file is: `{dataset}_{split}.{dataset}_train.jsonl`, where `{dataset}_{split}` specifies the dataset from which the input questions are drawn from (e.g. `csqa_dev`), while `{dataset}_train` specifies the document index in ZEBRA-KB from which the examples are drawn from (e.g. `csqa_train`).
 
-We provide a script to run the entire ZEBRA pipeline offline over a dataset using a specific LLM. \
-You can find the available datasets for evaluation under the `data/datasets` folder. \
-Once you have placed the retriever's outputs in the dedicated folder, the script expects only one input parameter: the model to be evaluated using the relative HuggingFace model ID (e.g. `meta-llama/Meta-Llama-3-8B-Instruct`).
+We provide a script to run the entire ZEBRA pipeline offline over a dataset using a specific LLM. You can find the available datasets files for evaluation under the `data/datasets` folder. Once you have placed the retriever's outputs in the dedicated folder, the script expects only one input parameter: the model to be evaluated using the relative HuggingFace model ID (e.g. `meta-llama/Meta-Llama-3-8B-Instruct`).
 
 Example on CSQA:
 
@@ -254,15 +251,14 @@ To be able to run ZEBRA on your dataset, the data should have the following stru
 }
 ```
 
-All the datasets in the `data/datasets` folder already match this format. \
-For convenience, we provide a script to parse a dataset in the desired format: `scripts/data/parse_dataset.py`.
+All the datasets in the `data/datasets` folder already match this format. For convenience, we provide a script to parse a dataset in the desired format: `scripts/data/parse_dataset.py`.
 
 ### Retriever Training
 
 Our retriever model can be found at the link in the [Models](#models) section.
 We trained our retriever on the CSQA dataset [(Talmor et. al 2019)](https://aclanthology.org/N19-1421/). In particular, we format both the training and validation datasets as follows: 
 
-```jsonl
+```python
 {
   "question": str  # The input passage
   "positive_ctxs": list[dict] # List of positive passages
@@ -332,11 +328,10 @@ python scripts/retriever/train.py \
 
 ### 🦓 ZEBRA KB
 
-As previously explained under the [Data](#data) section, the ZEBRA pipeline requires a document index containing examples such that the retriever can fetch the most relevant ones for an input question. \
-The document index can contain:
-- examples from the training split of the dataset under evaluation.
-- examples from the training split of another dataset.
-- examples from multiple training splits of a list of datasets.
+As previously explained under the [Data](#data) section, the ZEBRA pipeline requires a document index containing examples such that the retriever can fetch the most relevant ones for an input question. The document index can contain:
+- examples from the training set of the dataset under evaluation.
+- examples from the training set of another dataset.
+- examples from multiple training sets of a list of datasets.
 
 You can either access the precomputed document indexes using the link provided in the [Data](#data) section, or you can generate your own document index by running:
 

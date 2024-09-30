@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Retriever output paths
-retriever_output_path="data/zebra_retriever/outputs/arc/challenge/arc_challenge_dev.arc_train.jsonl"
+retriever_output_path="data/retriever/outputs/arc/challenge/arc_challenge_dev.arc_train.jsonl"
 
 # Dataset path
 data_path="data/datasets/arc/challenge/arc-challenge-dev.jsonl"

@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Retriever output paths
-retriever_output_path="data/zebra_retriever/outputs/csqa/csqa_dev.csqa_train.jsonl"
+retriever_output_path="data/retriever/outputs/csqa/csqa_dev.csqa_train.jsonl"
 
 # Dataset path
 data_path="data/datasets/csqa/csqa-dev.jsonl"
@@ -18,7 +18,7 @@ explanations_split=(
 # Num kg examples
 num_kg_examples=(1 3 5 10 20)
 # Output dir
-output_dir="results/zebra/csqa"
+output_dir="."
 
 # Model name
 model=$1

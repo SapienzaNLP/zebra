@@ -2,7 +2,7 @@
 
 echo "Running $PYTHON_TRAIN_SCRIPT"
 
-DATA_DIR="data/zebra_retriever/dataset"
+DATA_DIR="data/retriever/dataset"
 TRAIN_PATH="$DATA_DIR/train.jsonl"
 DEV_PATH="$DATA_DIR/dev.jsonl"
 

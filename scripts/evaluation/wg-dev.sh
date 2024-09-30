@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Retriever output paths
-retriever_output_path="data/zebra_retriever/outputs/wg/wg_dev.wg_train.jsonl"
+retriever_output_path="data/retriever/outputs/wg/wg_dev.wg_train.jsonl"
 
 # Dataset path
 data_path="data/datasets/wg/wg-dev.jsonl"

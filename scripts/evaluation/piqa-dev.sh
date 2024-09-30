@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Retriever output paths
-retriever_output_path="data/zebra_retriever/outputs/piqa/piqa_dev.piqa_train.jsonl"
+retriever_output_path="data/retriever/outputs/piqa/piqa_dev.piqa_train.jsonl"
 
 # Dataset path
 data_path="data/datasets/piqa/piqa-dev.jsonl"

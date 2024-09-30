@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Retriever output paths
-retriever_output_path="data/zebra_retriever/outputs/obqa/obqa_test.obqa_train.jsonl"
+retriever_output_path="data/retriever/outputs/obqa/obqa_test.obqa_train.jsonl"
 
 # Dataset path
 data_path="data/datasets/obqa/obqa-test.jsonl"

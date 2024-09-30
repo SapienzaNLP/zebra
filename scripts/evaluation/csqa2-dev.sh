@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Retriever output paths
-retriever_output_path="data/zebra_retriever/outputs/csqa2/csqa2_dev.csqa2_train.jsonl"
+retriever_output_path="data/retriever/outputs/csqa2/csqa2_dev.csqa2_train.jsonl"
 
 # Dataset path
 data_path="data/datasets/csqa2/csqa2-dev.jsonl"
