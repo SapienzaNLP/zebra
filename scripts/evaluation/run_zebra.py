@@ -92,7 +92,7 @@ def parse_arguments():
         required=not os.path.exists(parser.parse_known_args()[0].explanations_path),
         choices=[
             "all",
-            "ecqa",
+            "csqa-train-ecqa",
             "arc-train-gemini",
             "csqa-train-gemini",
             "csqa2-train-gemini",

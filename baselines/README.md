@@ -88,7 +88,7 @@ python baselines/evaluate_baseline.py --help
 For example:
 
 ```bash
-python zebra/run_zebra.py \
+python scripts/evaluation/run_zebra.py \
   --model_name meta-llama/Meta-Llama-3-8B-Instruct \
   --data_path baselines/outputs/csqa/csqa-dev|crystal-11b|explanations=crystal|num_return_sequences=10.jsonl \
   --dataset_tag csqa \ 

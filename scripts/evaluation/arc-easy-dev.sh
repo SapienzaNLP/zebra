@@ -22,7 +22,7 @@ output_dir="results/zebra/arc/easy/dev"
 # Model name
 model=$1
 # Path to the Python script
-python_script="zebra/run_zebra.py"
+python_script="scripts/evaluation/run_zebra.py"
 
 for split in "${explanations_split[@]}"; do
     for num_examples in "${num_kg_examples[@]}"; do

@@ -211,7 +211,7 @@ python scripts/evaluation/run_zebra.py --help
 For example:
 
 ```bash
-python zebra/run_zebra.py \
+python scripts/evaluation/run_zebra.py \
   --model_name meta-llama/Meta-Llama-3-8B-Instruct \
   --data_path data/datasets/csqa/csqa-dev.jsonl \
   --retriever_output_path data/retriever/outputs/csqa/csqa_dev.csqa_train.jsonl \
