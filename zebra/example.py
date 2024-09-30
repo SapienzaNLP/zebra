@@ -19,5 +19,5 @@ choices = [
 ]
 
 # Generate knowledge and perform question answering.
-explanations, answers = zebra.pipeline(questions=questions, choices=choices)
-zebra.log(explanations, answers)
+zebra_output = zebra.pipeline(questions=questions, choices=choices, return_dict=True)
+print()

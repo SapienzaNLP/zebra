@@ -52,27 +52,17 @@ class ZebraOutput:
     kg_shots: List[List[Dict[str, Any]]]
     samples: List[Dict[str, Any]]
 
-    # convert to dict
-    # def to_dict(self):
-    #     self_dict = {
-    #         "text": self.text,
-    #         "tokens": [tok.text for tok in self.tokens],
-    #         "spans": self.spans,
-    #         "triplets": self.triplets,
-    #         "candidates": {
-    #             "span": [
-    #                 [[doc.to_dict() for doc in documents] for documents in window]
-    #                 for window in self.candidates.span
-    #             ],
-    #             "triplet": [
-    #                 [[doc.to_dict() for doc in documents] for documents in window]
-    #                 for window in self.candidates.triplet
-    #             ],
-    #         },
-    #     }
-    #     if self.windows is not None:
-    #         self_dict["windows"] = [window.to_dict() for window in self.windows]
-    #     return self_dict
+    def to_dict(self):
+        self_dict = {
+            "questions": self.questions,
+            "choices": self.choices,
+            "explanations": self.explanations,
+            "answers": self.answers,
+            "retriever_output": self.retriever_output,
+            "kg_shots": self.kg_shots,
+            "samples": self.samples
+        }
+        return self_dict
 
 
 class Zebra:
@@ -318,16 +308,19 @@ class Zebra:
         self.log("ZEBRA run completed successfully!", type="success")
 
         if not return_dict:
-            return all_knowledge, all_answers_with_knowledge
-        return {
-            "questions": all_questions,
-            "choices": all_choices,
-            "explanations": all_knowledge,
-            "answers": all_answers_with_knowledge,
-            "retriever_output": retriever_output,
-            "kg_shots": kg_shots,
-            "samples": samples
-        }
+            return ZebraOutput(
+                explanations=all_knowledge,
+                answers=all_answers_with_knowledge,
+            )
+        return ZebraOutput(
+            questions=all_questions,
+            choices=all_choices,
+            explanations=all_knowledge,
+            answers=all_answers_with_knowledge,
+            retriever_output=retriever_output,
+            kg_shots=kg_shots,
+            samples=samples
+        )
     
     def create_retriever_input(self,
         questions:Union[str, List[str]],
