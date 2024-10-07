@@ -16,7 +16,7 @@
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000)](https://github.com/psf/black)
 </div>
 
-A retrieval augmentation framework for zero-shot commonsense question answering with LLMs. 
+<div align="center"> A retrieval augmentation framework for zero-shot commonsense question answering with LLMs. </div>
 
 ## 🛠️ Installation
 
@@ -39,12 +39,11 @@ pip install -e .
 ## 🚀 Quick Start
 
 ZEBRA is a plug-and-play retrieval augmentation framework for **Commonsense Question Answering**. \
-It is composed of two pipeline stages: *knowledge generation* and *informed reasoning*. \
-The knowledge generation step is responsible for:
-- given a question, retrieving relevant examples of question-knowledge pairs from a large collection
-- prompting a LLM to generate useful explanations for the given input question by leveraging the relationships between the retrieved question-knowledge pairs.
+It is composed of three pipeline stages: *example retrieval*, *knowledge generation* and *informed reasoning*.
 
-The informed reasoning step is responsible for prompting a LLM for the question answering task by taking advantage of the previously generated explanations.
+- Example retrieval: given a question, we retrieve relevant examples of question-knowledge pairs from a large collection
+- Knowledge generation: we prompt an LLM to generate useful explanations for the given input question by leveraging the relationships in the retrieved question-knowledge pairs.
+- Informed reasoning: we prompt the same LLM for the question answering task by taking advantage of the previously generated explanations.
 
 Here is an example of how to use ZEBRA for question answering:
 
@@ -136,7 +135,7 @@ ZEBRA comes with a knowledge base called ZEBRA-KB containing examples of questio
 | WG      | Winograd Schema Challenge is a dataset for commonsense reasoning. | [WG](https://github.com/allenai/winogrande) |
 
 
-This KB is where the retriever fetches relevant examples for the input question during the knowledge generation step. The KB is organized in two components: the explanations and the document indexes.
+This KB is where the retriever fetches relevant examples for the input question. The KB is organized in two components: the explanations and the document indexes.
 
 The explanations are organized in splits, one for each training set (e.g. `csqa-train-gemini`). Each sample contains an ID (compliant with the original sample ID in the relative training set) and a list of explanations. There is also a dedicated split which contains all the samples of every split. You can access the explanations at the following link:
 
@@ -145,7 +144,6 @@ The explanations are organized in splits, one for each training set (e.g. `csqa-
 Alternatively, you can also download the explanations on your local machine from the following [Google Drive link](https://drive.google.com/file/d/1eKBB1DaQQx-s5ibiZrrgfZpfDwDMxxWB/view?usp=sharing). For convenience, we provide a dedicated folder to store the downloaded explanations: `data/explanations`.
 
 The document indexes contain the examples along with their embeddings. These indexes are needed to fetch relevant examples for a given input question through the retriever. Once the examples are retrieved, their IDs will be matched against the ones contained in the relative explanations split to create the desired input for the knowledge generation step, that is, a list of $k$ examples with their associated explanations.
-
 
 Similar to the explanations, the document indexes are organized in splits, one for each training set. You can browse the available splits at the following [HuggingFace Collection link](https://huggingface.co/collections/sapienzanlp/zebra-66e3ec50c8ce415ea7572d0e).
 
@@ -447,5 +445,4 @@ If you use any part of this work, please consider citing the paper as follows:
 The data and software are licensed under [Creative Commons Attribution-NonCommercial-ShareAlike 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/).
 
 ## Acknowledgements
-* [Future AI Research](https://future-ai-research.it/) for supporting this work.
-* [Creative] 
+[Future AI Research](https://future-ai-research.it/) and CREATIVE (CRoss-modalunderstanding and gEnerATIon of Visual and tExtual content) for supporting this work.
