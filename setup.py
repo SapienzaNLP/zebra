@@ -107,7 +107,7 @@ setuptools.setup(
     description="ZEBRA: Zero-Shot Example-Based Retrieval Augmentation for Commonsense Question Answering",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/framolfese/zebra",
+    url="https://github.com/sapienzanlp/zebra",
     keywords="NLP Sapienza sapienzanlp deep learning transformer pytorch retriever question answering commonsense large language models",
     packages=setuptools.find_packages(),
     include_package_data=True,
