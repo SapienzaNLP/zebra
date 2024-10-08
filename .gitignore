@@ -1,7 +1,5 @@
 .vscode
-api
-wandb
-golden-retriever
-notebooks
+build
+dist
 zebra.egg-info
 __pycache__/
