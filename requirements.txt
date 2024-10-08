@@ -25,5 +25,8 @@ loguru==0.7.2
 # retriever
 goldenretriever-core==0.9.4
 
+# package building
+twine==5.1.1
+
 # flash attention
 flash-attn==2.5.9.post1
