@@ -100,7 +100,7 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setuptools.setup(
-    name="zebra",
+    name="zebra-qa",
     version=VERSION["VERSION"],
     author="Francesco Molfese",
     author_email="molfesefrancesco@gmail.com",
