@@ -115,7 +115,7 @@ class Zebra:
         max_generated_knowledge:Optional[int]=None,
         max_new_tokens:Optional[int]=256,
         return_dict:Optional[bool]=False,
-    ) -> Union[Tuple[List[str], List[str]], Dict[str, Any]]:
+    ) -> ZebraOutput:
         """
         Run the Zebra pipeline to generate knowledge and answer questions.
 
@@ -159,8 +159,8 @@ class Zebra:
             Whether to return the output as a dictionary containing additional information or as a tuple with list of knowledge and answers.
 
         Returns:
-        - Union[Tuple[List[str], List[str]], Dict[str, Any]]: 
-            The generated knowledge and the answers. 
+        - ZebraOutput: 
+            A dictionary containing the generated knowledge and the answers. 
             If 'return_dict' is True, the output is a dictionary containing: 
                 - "knowledge": The generated knowledge.
                 - "answers": The answers.
