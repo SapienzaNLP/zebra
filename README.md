@@ -1,6 +1,6 @@
 
 <div align="center">
-  <img src="assets/zebra-with-background.jpeg" height="80">
+  <img src="assets/zebra.png" height="100">
 </div>
 
 <div align="center">
