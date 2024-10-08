@@ -112,9 +112,9 @@ setuptools.setup(
     packages=setuptools.find_packages(),
     include_package_data=True,
     license="Creative Commons Attribution-NonCommercial-ShareAlike 4.0",
+    license_files=["LICENSE"],
     classifiers=[
         "Intended Audience :: Science/Research",
-        "License :: OSI Approved :: CC BY-NC-SA 4.0 Software License",
         "Programming Language :: Python :: 3",
         "Topic :: Scientific/Engineering :: Artificial Intelligence",
     ],

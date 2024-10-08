@@ -26,6 +26,7 @@ loguru==0.7.2
 goldenretriever-core==0.9.4
 
 # package building
+setuptools==75.1.0
 twine==5.1.1
 
 # flash attention
