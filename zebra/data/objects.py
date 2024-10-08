@@ -21,13 +21,13 @@ class ZebraOutput:
             The input samples created from the questions and choices.
     """
     
-    questions: List[str]
-    choices: Union[List[List[str]],  List[List[Dict[str, str]]]]
     explanations: List[List[str]]
     answers: List[str]
-    retriever_output: List[Dict[str, Any]]
-    kg_shots: List[List[Dict[str, Any]]]
-    samples: List[Dict[str, Any]]
+    questions: List[str] = None
+    choices: Union[List[List[str]],  List[List[Dict[str, str]]]] = None
+    retriever_output: List[Dict[str, Any]] = None
+    kg_shots: List[List[Dict[str, Any]]] = None
+    samples: List[Dict[str, Any]] = None
 
     def to_dict(self):
         self_dict = {
