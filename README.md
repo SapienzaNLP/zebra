@@ -1,6 +1,6 @@
 
 <div align="center">
-  <img src="assets/zebra.png" height="80">
+  <img src="assets/zebra-with-background.jpeg" height="80">
 </div>
 
 <div align="center">
@@ -8,7 +8,7 @@
 # ZEBRA: Zero-Shot Example-Based Retrieval Augmentation for Commonsense Question Answering
 
 [![Conference](https://img.shields.io/badge/EMNLP-2024-4b44ce)](https://2024.emnlp.org/)
-[![arXiv](https://img.shields.io/badge/arXiv-placeholder-b31b1b.svg)](https://arxiv.org/abs/placeholder)
+[![arXiv](https://img.shields.io/badge/arXiv-paper-b31b1b.svg)](https://arxiv.org/abs/2410.05077)
 [![License: CC BY-NC-SA 4.0](https://img.shields.io/badge/License-CC%20BY--NC--SA%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by-nc-sa/4.0/)
 [![Hugging Face Collection](https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Collection-FCD21D)](https://huggingface.co/collections/sapienzanlp/zebra-66e3ec50c8ce415ea7572d0e)
 [![PyTorch](https://img.shields.io/badge/PyTorch-orange?logo=pytorch)](https://pytorch.org/)
@@ -23,7 +23,7 @@
 Installation from PyPi
 
 ```bash
-pip install zebra
+pip install zebra-qa
 ```
 
 Installation from source
