@@ -1,6 +1,6 @@
 
 <div align="center">
-  <img src="assets/zebra.png" height="100">
+  <img src="https://github.com/SapienzaNLP/zebra/blob/master/assets/zebra.png?raw=true" width="100" height="100">
 </div>
 
 <div align="center">
