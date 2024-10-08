@@ -299,9 +299,11 @@ class Zebra:
         query = []
         if isinstance(questions, str):
             questions = [questions]
+        if isinstance(choices[0], str) or isinstance(choices[0], dict):
+            choices = [choices]
         for current_question, current_choices in zip(questions, choices):
             if isinstance(current_choices[0], str):
-                labels = [chr(65 + i) for i in range(len(choices))]
+                labels = [chr(65 + i) for i in range(len(current_choices))]
                 joined_choices = " [SEP] ".join(
                     [f"{label}. {choice}" for label, choice in zip(labels, current_choices)]
                 )
@@ -412,6 +414,8 @@ class Zebra:
         samples = []
         if isinstance(questions, str):
             questions = [questions]
+        if isinstance(choices[0], str) or isinstance(choices[0], dict):
+            choices = [choices]
         for current_question, current_choices in zip(questions, choices):
             sample = dict()
             if isinstance(current_choices[0], str):
