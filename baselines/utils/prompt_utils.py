@@ -1,6 +1,6 @@
 from typing import List
 
-from zebra import prompts
+from zebra.prompts import prompts
 
 DATASET_TAGS = prompts.DATASET_TAGS
 MCQ_EXAMPLE_TEMPLATE = prompts.MCQ_EXAMPLE_TEMPLATE
