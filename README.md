@@ -29,7 +29,7 @@ pip install zebra-qa
 Installation from source
 
 ```bash
-git clone https://github.com/framolfese/zebra.git
+git clone https://github.com/sapienzanlp/zebra.git
 cd zebra
 conda create -n zebra python==3.10
 conda activate zebra
