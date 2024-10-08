@@ -104,7 +104,7 @@ class Zebra:
     def pipeline(
         self,
         questions:Union[str, List[str]],
-        choices:Optional[Union[List[str], List[List[str]], List[Dict[str, str]], List[List[Dict[str, str]]]]]=None,
+        choices:Optional[Union[List[str], List[List[str]], List[Dict[str, str]], List[List[Dict[str, str]]]]],
         top_k:Optional[int]=5,
         batch_size:Optional[int]=64,
         num_kg_examples:Optional[int]=5,
