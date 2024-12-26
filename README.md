@@ -422,21 +422,22 @@ If you use any part of this work, please consider citing the paper as follows:
 
 ```bibtex
 @inproceedings{molfese-etal-2024-zebra,
-    title = "ZEBRA: Zero-Shot Example-Based Retrieval Augmentation for Commonsense Question Answering",
+    title = "{ZEBRA}: Zero-Shot Example-Based Retrieval Augmentation for Commonsense Question Answering",
     author = "Molfese, Francesco Maria  and
       Conia, Simone  and
       Orlando, Riccardo  and
       Navigli, Roberto",
-    editor = "",
+    editor = "Al-Onaizan, Yaser  and
+      Bansal, Mohit  and
+      Chen, Yun-Nung",
     booktitle = "Proceedings of the 2024 Conference on Empirical Methods in Natural Language Processing",
     month = nov,
     year = "2024",
-    address = "Miami",
+    address = "Miami, Florida, USA",
     publisher = "Association for Computational Linguistics",
-    url = "",
-    doi = "",
-    pages = "",
-    abstract = "",
+    url = "https://aclanthology.org/2024.emnlp-main.1251",
+    doi = "10.18653/v1/2024.emnlp-main.1251",
+    pages = "22429--22444"
 }
 ```
 
